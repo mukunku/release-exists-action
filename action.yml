@@ -1,0 +1,29 @@
+name: 'release-exists-action'
+description: 'Checks if a given release exists'
+inputs:
+  tag:  
+    description: 'Tag to search a matching release for'
+    required: true
+  repo:  
+    description: 'Repo to search for the release'
+    default: ${{ github.repository }}
+  github_token:
+    description: GitHub token
+    default: ${{ github.token }}
+outputs:
+  exists: 
+    description: 'true or false'
+  prerelease:
+    description: 'true or false'
+  draft:
+    description: 'true or false'
+  name:
+    description: 'Name of the release, if found.'
+  url:
+    description: 'Url to the release, if found.'
+runs:
+  using: 'node20'
+  main: 'index.js'
+branding:
+  icon: 'bookmark'  
+  color: 'yellow'

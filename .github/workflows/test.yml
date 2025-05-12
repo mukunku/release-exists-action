@@ -1,0 +1,62 @@
+name: Test
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  test:
+    name: Run Operating System Tests 
+    strategy: 
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: 'release-exists-action: true'
+        id: exists
+        uses: ./
+        with: 
+          tag: 'v1.0.0'
+      - name: 'release-exists-action: false'
+        id: not-exists
+        uses: ./
+        with: 
+          tag: 'not-exist-tag-for-testing'
+      - name: 'release-exists-action: external repo - true'
+        id: external-repo-tag-exists
+        uses: ./
+        with: 
+          tag: 'v3.6.0'
+          repo: 'actions/checkout'
+      - name: 'release-exists-action: external repo - false'
+        id: external-repo-tag-not-exists
+        uses: ./
+        with: 
+          tag: 'not-exist-tag-for-testing'
+          repo: 'actions/checkout'
+      - name: 'release-exists-action: external repo exists - false'
+        id: external-repo-not-exists
+        uses: ./
+        with: 
+          tag: 'not-exist-tag-for-testing'
+          repo: 'fakeRepo/fakerepo'
+
+      - name: Result of exists
+        if: always()
+        run: test "true" = "${{ steps.exists.outputs.exists }}"
+      - name: Result of not-exists
+        if: always()
+        run: test "false" = "${{ steps.not-exists.outputs.exists }}"
+      - name: Result of external-repo-tag-exists
+        if: always()
+        run: test "true" = "${{ steps.external-repo-tag-exists.outputs.exists }}"
+      - name: Result of external-repo-tag-not-exists
+        if: always()
+        run: test "false" = "${{ steps.external-repo-tag-not-exists.outputs.exists }}"
+      - name: Result of external-repo-not-exists
+        if: always()
+        run: test "false" = "${{ steps.external-repo-not-exists.outputs.exists }}"
