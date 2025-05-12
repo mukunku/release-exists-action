@@ -1,11 +1,17 @@
 # release-exists-action
-A GitHub action that determines if a tag exists in a repo.
+A GitHub action that determines if a release exists in a repo.
+
+If a release is found it will additionally return information about it such as:
+* Pre-release status
+* Draft status
+* Name
+* Url
 
 ## Inputs
 
 ### `tag` 
 
-**Required** - The tag to search for.
+**Required** - Tag to search a matching release for.
 
 ### `repo`
 
@@ -17,29 +23,45 @@ A GitHub action that determines if a tag exists in a repo.
 
 A string value of 'true' or 'false'
 
+### `prerelease`
+
+A string value of 'true' or 'false'
+
+### `draft`
+
+A string value of 'true' or 'false'
+
+### `name`
+
+If found, the name of the release.
+
+### `url`
+
+If found, the url of the release.
+
 ## Example usages
 
-To check if the tag `v1.0` exists in your repo:
+To check if a release with the tag `v1.0` exists in your repo:
 ```yaml
-- uses: mukunku/release-exists-action@v1.6.0
-  id: check-tag
+- uses: mukunku/release-exists-action@v1.0.0
+  id: check-release
   with: 
     tag: 'v1.0'
 
-- run: echo "Tag exists!"
-  if: steps.check-tag.outputs.exists == 'true' 
+- run: echo "Release exists!"
+  if: steps.check-release.outputs.exists == 'true' 
 ```
 
-To check if the tag [`v1.0.0`](https://github.com/actions/checkout/releases/tag/v1.0.0) exists in the repo `actions/checkout`:
+To check if a release with the tag [`v1.0.0`](https://github.com/actions/checkout/releases/tag/v1.0.0) exists in the repo `actions/checkout`:
 ```yaml
-- uses: mukunku/release-exists-action@v1.6.0
-  id: check-tag
+- uses: mukunku/release-exists-action@v1.0.0
+  id: check-release
   with: 
     tag: 'v1.0.0'
     repo: 'actions/checkout'
 
-- run: echo "Tag exists!"
-  if: steps.check-tag.outputs.exists == 'true'
+- run: echo "Release exists!"
+  if: steps.check-release.outputs.exists == 'true'
 ```
 
 <hr>
