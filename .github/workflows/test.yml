@@ -55,7 +55,7 @@ jobs:
           test "false" = "${{ steps.exists.outputs.prerelease }}"
           test "false" = "${{ steps.exists.outputs.draft }}"
           test "https://github.com/mukunku/release-exists-action/releases/tag/v1.0.0" = "${{ steps.exists.outputs.url }}"
-          test "v1.0.0" = "${{ steps.exists.outputs.name }}"
+          test "Ready For Marketplace" = "${{ steps.exists.outputs.name }}"
       - name: Result of not-exists
         if: always()
         run: test "false" = "${{ steps.not-exists.outputs.exists }}"
