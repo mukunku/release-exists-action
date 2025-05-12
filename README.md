@@ -60,8 +60,13 @@ To check if a release with the tag [`v1.0.0`](https://github.com/actions/checkou
     tag: 'v1.0.0'
     repo: 'actions/checkout'
 
-- run: echo "Release exists!"
-  if: steps.check-release.outputs.exists == 'true'
+- run: | 
+    echo "Release exists and is not a draft!"
+    echo steps.check-release.outputs.name 
+    echo steps.check-release.outputs.url
+    echo steps.check-release.outputs.prerelease
+    echo steps.check-release.outputs.draft
+  if: steps.check-release.outputs.exists == 'true' && steps.check-release.outputs.draft == 'false'
 ```
 
 <hr>
