@@ -16,7 +16,9 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: 'release-exists-action: true'
         id: exists
         uses: ./
@@ -45,16 +47,26 @@ jobs:
         with: 
           tag: 'not-exist-tag-for-testing'
           repo: 'fakeRepo/fakerepo'
-
       - name: Result of exists
         if: always()
-        run: test "true" = "${{ steps.exists.outputs.exists }}"
+        run: |
+          test "true" = "${{ steps.exists.outputs.exists }}"
+          test "true" = "${{ steps.exists.outputs.exists }}"
+          test "false" = "${{ steps.exists.outputs.prerelease }}"
+          test "false" = "${{ steps.exists.outputs.draft }}"
+          test "https://github.com/mukunku/release-exists-action/releases/tag/v1.0.0" = "${{ steps.exists.outputs.url }}"
+          test "v1.0.0" = "${{ steps.exists.outputs.name }}"
       - name: Result of not-exists
         if: always()
         run: test "false" = "${{ steps.not-exists.outputs.exists }}"
       - name: Result of external-repo-tag-exists
         if: always()
-        run: test "true" = "${{ steps.external-repo-tag-exists.outputs.exists }}"
+        run: |
+          test "true" = "${{ steps.external-repo-tag-exists.outputs.exists }}"
+          test "false" = "${{ steps.external-repo-tag-exists.outputs.prerelease }}"
+          test "false" = "${{ steps.external-repo-tag-exists.outputs.draft }}"
+          test "https://github.com/actions/checkout/releases/tag/v3.6.0" = "${{ steps.external-repo-tag-exists.outputs.url }}"
+          test "v3.6.0" = "${{ steps.external-repo-tag-exists.outputs.name }}"
       - name: Result of external-repo-tag-not-exists
         if: always()
         run: test "false" = "${{ steps.external-repo-tag-not-exists.outputs.exists }}"
