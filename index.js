@@ -33,7 +33,7 @@ async function run() {
                 console.log("Release found");
                 exists = 'true';
                 
-                console.log(JSON.stringify(response.data));
+                //console.log(JSON.stringify(response.data));
 
                 prerelease = response.data.prerelease ? "true" : "false";
                 console.log(`Pre-release: ${prerelease}`);
