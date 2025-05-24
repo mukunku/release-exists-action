@@ -52,7 +52,7 @@ To check if a release with the tag `v1.0` exists in your repo:
   if: steps.check-release.outputs.exists == 'true' 
 ```
 
-To check if a release with the tag [`v1.0.0`](https://github.com/actions/checkout/releases/tag/v1.0.0) exists in the repo `actions/checkout`:
+To check if a non-draft release with the tag [`v1.0.0`](https://github.com/actions/checkout/releases/tag/v1.0.0) exists in the repo `actions/checkout`:
 ```yaml
 - uses: mukunku/release-exists-action@v1.0.0
   id: check-release
